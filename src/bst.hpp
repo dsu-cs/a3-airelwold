@@ -119,79 +119,52 @@ std::vector<T> *BST<T>::postorder()
 template <class T>
 void BST<T>::insert(T new_data)
 {
-    /*Node<T> *createNode;
-    int *i;
+    Node<T> * new_Node = NULL;
+    Node<T> *prev_Node = NULL;
+    Node<T> *temp_Node = NULL;
 
-    i = 0;
+    new_Node = new Node<T>(new_data);
+    temp_Node = root;
 
-    if (new_data == NULL)
+    while(temp_Node != NULL)
     {
-        return;
+        prev_Node = temp_Node;
+
+        if(temp_Node->get_data() < new_Node->get_data())
+        {
+            temp_Node = temp_Node->get_right();
+        } else 
+        {
+            temp_Node = temp_Node->get_left();
+        }
     }
-    else if (new_data < root->i)
+
+    if (prev_Node == NULL)
     {
-        root->get_left(), i;
-    }
-    else
+        root = new_Node;
+    } 
+    else 
     {
-        root->get_right(), i;
+        if (prev_Node->get_data() < new_Node->get_data())
+        {
+            prev_Node->set_right(new_Node);
+        } else 
+        {
+            prev_Node->set_left(new_Node);
+        }
     }
-    return;*/
-    //Node<T>* BST<T>::search(T) [width T = int];
 }
 
 template <class T>
 Node<T> *BST<T>::search(T val)
 {
-    /*int left = 0;
-    int right = 0;
-   if (root == NULL)
-   {
-       return NULL;
-   }
-   else if (root->get_data() == val)
-    {
-        return root;
-    }
-    else
-    {
-        Node<T> *left = search(root->get_left(), val);
-        Node<T> *right = search(root->get_right(), val);
-
-        if (left == 0 && right == 0)
-        {
-            return 0;
-        }
-        else
-        {
-            return left+right+1;
-        }
-    }*/
-
-    /*int left = 0;
-    int right = 0;
-   if (root == NULL)
-   {
-       return 1;
-   }
-   else if (root->get_data() == val)
-    {
-        return 1;
-    }
-    else if (root->get_data() > val)
-    {
-        return search(root->get_left(), val);
-    }
-    else
-    {
-        return search(root->get_right(), val);
-    }*/
     Node<T> *cur_Node;
 
     while (root != NULL)
     {
         if (root->get_data() == val)
         {
+
             break;
         }
         else if (root->get_data() != val)
