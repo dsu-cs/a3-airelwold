@@ -36,6 +36,11 @@ public:
     // Gets the current number of nodes in the tree
     // returns: the number of nodes in the tree
     int get_size(void);
+    // Recursive counter
+    // param: Current node for count
+    // returns: number of nodes found
+    int count_rec(Node<T>* cur_Node);
+
 
 private:
     // the root node of the tree
@@ -265,5 +270,25 @@ void BST<T>::remove(T val)
 template <class T>
 int BST<T>::get_size()
 {
-       
+    if (root != NULL)
+    {
+        node_count = count_rec(root);
+    }
+    return node_count;
+}
+
+template<class T>
+int BST<T>::count_rec(Node<T>* cur_Node)
+{
+    int rec_count = 1; 
+
+    if (cur_Node->get_left() != NULL){
+        rec_count += count_rec(cur_Node->get_left());
+    }
+
+    if (cur_Node->get_right() != NULL){
+        rec_count += count_rec(cur_Node->get_right());
+    }
+
+    return rec_count;
 }
