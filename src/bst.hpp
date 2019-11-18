@@ -33,6 +33,10 @@ public:
     // returns: a pointer to the node containing the data or NULL if the data
     //          was not found
     Node<T> *search(T);
+    // Recursive search
+    // param: node and value of node searched
+    // returns: node found
+    Node<T> *search_rec(Node<T>* cur_Node, T& val);
     // Gets the current number of nodes in the tree
     // returns: the number of nodes in the tree
     int get_size(void);
@@ -110,6 +114,39 @@ template <class T>
 std::vector<T> *BST<T>::preorder()
 {
     std::vector<T> *vec = new std::vector<T>;
+    std::vector<int> preorder_Data;
+	Node<T> *cur_Node;
+	Node<T> *temp_Node;
+    cur_Node = root;
+
+    while (cur_Node != NULL) 
+	{  
+        if (cur_Node->get_left() == NULL) 
+		{  
+            preorder_Data.push_back(cur_Node->get_data());
+            cur_Node = cur_Node->get_right();
+        }
+	  	else 
+		{
+            temp_Node = cur_Node->get_left();
+            while (temp_Node->get_right() != NULL && temp_Node->get_right() != cur_Node) 
+			{
+                temp_Node = temp_Node->get_right();
+            }
+        }
+        if (temp_Node->get_right() == cur_Node) 
+		{
+            temp_Node->set_right(NULL);
+            cur_Node = cur_Node->get_right();
+        }
+        else 
+	    {
+            preorder_Data.push_back(cur_Node->get_data());
+            temp_Node->set_right(cur_Node);
+            cur_Node = cur_Node->get_left();
+        }
+    }
+    *vec = preorder_Data;
     return vec;
 }
 
@@ -163,26 +200,30 @@ void BST<T>::insert(T new_data)
 template <class T>
 Node<T> *BST<T>::search(T val)
 {
-    Node<T> *cur_Node;
+    return search_rec(root, val);
+}
 
-    while (root != NULL)
+template<class T>
+Node<T> *BST<T>::search_rec(Node<T>* cur_Node, T& val)
+{
+    if (cur_Node == NULL) 
     {
-        if (root->get_data() == val)
+        return NULL;
+    } 
+    else if (cur_Node->get_data() == val)
+    {
+        return cur_Node;
+    } 
+    else 
+    {
+        if (cur_Node->get_data() > val) 
         {
-
-            break;
-        }
-        else if (root->get_data() != val)
+            return search_rec(cur_Node->get_left(), val);
+        } else 
         {
-            root->get_left();
+            return search_rec(cur_Node->get_right(), val);
         }
-        else
-        {
-            root->get_right();
-        }
-    return root;
     }
-
 }
 
 template <class T>
