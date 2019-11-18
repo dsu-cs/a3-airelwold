@@ -154,7 +154,29 @@ template <class T>
 std::vector<T> *BST<T>::postorder()
 {
     std::vector<T> *vec = new std::vector<T>;
+    std::vector<int> postorder_Data;
+    std::vector<Node<T>*> temp_Data;
+	Node<T> *cur_Node;
+	Node<T> *temp_Node;
+    cur_Node = root;
 
+    temp_Data.push_back(cur_Node);
+
+    while(!temp_Data.empty())
+	{
+        temp_Node = temp_Data.back();
+        temp_Data.pop_back();
+        postorder_Data.push_back(temp_Node->get_data());
+        if(temp_Node->get_left() != NULL)
+		{
+            temp_Data.push_back(temp_Node->get_left());
+        	}
+        if(temp_Node->get_right() != NULL)
+		{
+            temp_Data.push_back(temp_Node->get_right());
+        	}
+    }
+    *vec = postorder_Data;
     return vec;
 }
 
