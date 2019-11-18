@@ -70,39 +70,39 @@ template <class T>
 std::vector<T> *BST<T>::inorder()
 {
     std::vector<T> *vec = new std::vector<T>;
-
-    /*if (root == NULL)
-    {
-        return;
-    }
-     
-    inorder(root.get_left());
-    inorder(root.get_right());*/
+    std::vector<int> inorder_Data;
+    Node<T> *cur_Node;
+    Node<T> *prev_Node; 
     
+    cur_Node = root; 
+    while (cur_Node != NULL) 
+    { 
+        if (cur_Node->get_left() == NULL) 
+        { 
+            inorder_Data.push_back(cur_Node->get_data()); 
+            cur_Node = (cur_Node->get_right()); 
+        } 
+        else 
+        { 
+            prev_Node = cur_Node->get_left(); 
 
-    if (root != NULL)
-    {
-        root->get_left();
-        root->get_right();
+            while (prev_Node->get_right() != NULL && prev_Node->get_right() != cur_Node) 
+                prev_Node = prev_Node->get_right(); 
+
+            if (prev_Node->get_right() == NULL)
+            { 
+                prev_Node->set_right(cur_Node); 
+                cur_Node = cur_Node->get_left(); 
+            }
+            else 
+            {
+                prev_Node->set_right(NULL); 
+                inorder_Data.push_back(cur_Node->get_data()); 
+                cur_Node = cur_Node->get_right(); 
+            } 
+        } 
     }
-    
-
-    /*if (begin > end)
-    {
-        return NULL;
-    }
-
-    i = max (inorder, begin, end);
-    Node *root = new(inorder[i]);
-
-    if (begin == end)
-    {
-        return root;
-    }
-
-    root->get_left() = BST (inorder, begin, i - 1);  
-    root->get_right() = BST (inorder, i + 1, end); */ 
-
+    *vec = inorder_Data;
     return vec;
 }
 
